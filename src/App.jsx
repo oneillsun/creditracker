@@ -85,56 +85,56 @@ function monthLabelOf(date) {
 const MILESTONES = [
   {
     month: 1,
-    label: "Aug 2026",
+    label: "Jul 2026",
     score: 645,
-    util: 47,
+    util: 37,
     action:
-      "Pay down US Bank (86% → ~50%) and Discover (74% → ~30%) — Antonio's two worst cards, driving his utilization to 65%",
+      "Put $1,000 toward US Bank — pays it off completely (86% → 0%) — with the ~$137 left over knocking down Discover next",
     done: false,
   },
   {
     month: 2,
-    label: "Sep 2026",
-    score: 660,
-    util: 39,
+    label: "Aug 2026",
+    score: 662,
+    util: 19,
     action:
-      "US Bank & Discover under 30%. Begin paying down Credit One (Antonio). Request CLI on Capital One (Antonio) — lowest balance, best approval odds",
+      "$1,000 clears the rest of Discover and pays off Credit One (Antonio) in full, with what's left starting to chip into Credit One (Damarys)",
     done: false,
   },
   {
     month: 3,
-    label: "Oct 2026",
-    score: 675,
-    util: 12,
+    label: "Sep 2026",
+    score: 680,
+    util: 1,
     action:
-      "Push every card under 15% individually. Request CLIs across the board now that balances are controlled",
+      "$1,000 finishes off Credit One (Damarys) and Capital One (Damarys), leaving only ~$63 across all 6 cards combined",
     done: false,
   },
   {
     month: 4,
-    label: "Nov 2026",
-    score: 685,
-    util: 10,
+    label: "Oct 2026",
+    score: 688,
+    util: 0,
     action:
-      "Apply for 1 new card each (Antonio + Damarys) now that scores are 680+. Request a second round of CLIs on the rest",
+      "Final ~$63 paid off — completely debt-free across all 6 cards. Request CLIs on every card now, while utilization is 0% — the best possible time to ask",
     done: false,
   },
   {
     month: 5,
-    label: "Dec 2026",
+    label: "Nov 2026",
     score: 695,
-    util: 10,
+    util: 0,
     action:
-      "Second round of CLIs across all cards. Consider a 2nd new card if either score is 690+. Total credit should be climbing toward $12–13K",
+      "Apply for 1 new card each (Antonio + Damarys) now that scores are 690+. Keep balances near $0 while the CLIs process",
     done: false,
   },
   {
     month: 6,
-    label: "Jan 2027",
+    label: "Dec 2026",
     score: 700,
-    util: 10,
+    util: 0,
     action:
-      "Final CLIs/new card to close the gap to $15,000 total credit. Zero missed payments, every card under 10%. Reassess for Vidants business credit",
+      "Final CLIs/new card to close the gap to $15,000 total credit. Keep balances near $0, zero missed payments. Reassess for Vidants business credit",
     done: false,
   },
 ];
@@ -1424,8 +1424,8 @@ export default function CreditTracker() {
                     textAlign: "center",
                   }}
                 >
-                  New card in Month 4<br />
-                  after score hits 680+
+                  New card in Month 5<br />
+                  after score hits 690+
                 </div>
               </div>
             </div>
