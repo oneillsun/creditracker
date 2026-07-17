@@ -6,7 +6,6 @@ const INITIAL_CARDS = [
     name: "Credit One",
     balance: 638,
     limit: 850,
-    amountDue: 0,
     last4: "",
     color: "#E24B4A",
     bg: "#FCEBEB",
@@ -17,7 +16,6 @@ const INITIAL_CARDS = [
     name: "Discover",
     balance: 65,
     limit: 200,
-    amountDue: 0,
     last4: "",
     color: "#EF9F27",
     bg: "#FAEEDA",
@@ -28,7 +26,6 @@ const INITIAL_CARDS = [
     name: "US Bank",
     balance: 0,
     limit: 500,
-    amountDue: 0,
     last4: "",
     color: "#378ADD",
     bg: "#E6F1FB",
@@ -39,7 +36,6 @@ const INITIAL_CARDS = [
     name: "Capital One",
     balance: 0,
     limit: 300,
-    amountDue: 0,
     last4: "",
     color: "#1D9E75",
     bg: "#E1F5EE",
@@ -50,7 +46,6 @@ const INITIAL_CARDS = [
     name: "Capital One",
     balance: 292,
     limit: 500,
-    amountDue: 0,
     last4: "",
     color: "#9B59B6",
     bg: "#F5EEF8",
@@ -61,7 +56,6 @@ const INITIAL_CARDS = [
     name: "Credit One",
     balance: 936,
     limit: 2000,
-    amountDue: 0,
     last4: "",
     color: "#5DADE2",
     bg: "#EBF5FB",
@@ -159,8 +153,8 @@ function TrendBars({ title, points, format }) {
   return (
     <div
       style={{
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.06)",
+        background: "#FFFFFF",
+        border: "1px solid #E7ECF3",
         borderRadius: 12,
         padding: "18px 20px",
         marginBottom: 16,
@@ -197,7 +191,7 @@ function TrendBars({ title, points, format }) {
               <div
                 style={{
                   fontSize: 10,
-                  color: pt.color || "#8499AE",
+                  color: pt.color || "#64748B",
                   fontWeight: 700,
                 }}
               >
@@ -213,7 +207,7 @@ function TrendBars({ title, points, format }) {
                 }}
               />
               <div
-                style={{ fontSize: 9, color: "#8499AE", textAlign: "center" }}
+                style={{ fontSize: 9, color: "#64748B", textAlign: "center" }}
               >
                 {pt.x}
               </div>
@@ -233,8 +227,8 @@ function ScoreTrendChart({ history }) {
   return (
     <div
       style={{
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.06)",
+        background: "#FFFFFF",
+        border: "1px solid #E7ECF3",
         borderRadius: 12,
         padding: "18px 20px",
         marginBottom: 16,
@@ -331,7 +325,7 @@ function ScoreTrendChart({ history }) {
                   />
                 </div>
               </div>
-              <div style={{ fontSize: 9, color: "#8499AE" }}>{h.label}</div>
+              <div style={{ fontSize: 9, color: "#64748B" }}>{h.label}</div>
             </div>
           );
         })}
@@ -354,7 +348,6 @@ export default function CreditTracker() {
   const [editVal, setEditVal] = useState({
     balance: "",
     limit: "",
-    amountDue: "",
     last4: "",
   });
   const [tab, setTab] = useState("dashboard");
@@ -421,7 +414,6 @@ export default function CreditTracker() {
     setEditVal({
       balance: card.balance,
       limit: card.limit,
-      amountDue: card.amountDue,
       last4: card.last4,
     });
   }
@@ -434,7 +426,6 @@ export default function CreditTracker() {
               ...c,
               balance: Math.max(0, Number(editVal.balance)),
               limit: Math.max(1, Number(editVal.limit)),
-              amountDue: Math.max(0, Number(editVal.amountDue) || 0),
               last4: String(editVal.last4 || "")
                 .replace(/\D/g, "")
                 .slice(0, 4),
@@ -506,16 +497,16 @@ export default function CreditTracker() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#0A1628",
+        background: "#F4F6FB",
         fontFamily: "'Barlow', 'Segoe UI', sans-serif",
-        color: "#F5F8FA",
+        color: "#16233A",
         padding: "0 0 40px",
       }}
     >
       {/* Header */}
       <div
         style={{
-          background: "linear-gradient(135deg, #0A1628 0%, #1B2E4A 100%)",
+          background: "linear-gradient(135deg, #FFFFFF 0%, #EEF2F8 100%)",
           borderBottom: "1px solid rgba(244,96,12,0.2)",
           padding: "24px 28px 0",
         }}
@@ -548,12 +539,12 @@ export default function CreditTracker() {
                 fontSize: 26,
                 fontWeight: 700,
                 letterSpacing: "-0.02em",
-                color: "#F5F8FA",
+                color: "#16233A",
               }}
             >
               Bello Family
             </div>
-            <div style={{ fontSize: 13, color: "#8499AE", marginTop: 2 }}>
+            <div style={{ fontSize: 13, color: "#64748B", marginTop: 2 }}>
               Goal: $15,000 total credit · 700+ score · 6 months
             </div>
           </div>
@@ -648,7 +639,7 @@ export default function CreditTracker() {
               style={{
                 padding: "8px 18px",
                 background: tab === t ? "#F4600C" : "transparent",
-                color: tab === t ? "#fff" : "#8499AE",
+                color: tab === t ? "#fff" : "#64748B",
                 border: "none",
                 borderRadius: "8px 8px 0 0",
                 fontSize: 13,
@@ -699,7 +690,7 @@ export default function CreditTracker() {
                   label: "Total Credit",
                   value: `$${totalLimitK}K`,
                   sub: "Target: $15K",
-                  valColor: totalLimit >= 15000 ? "#1D9E75" : "#F5F8FA",
+                  valColor: totalLimit >= 15000 ? "#1D9E75" : "#16233A",
                 },
                 {
                   label: "Plan Progress",
@@ -711,8 +702,8 @@ export default function CreditTracker() {
                 <div
                   key={i}
                   style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.07)",
+                    background: "#FFFFFF",
+                    border: "1px solid #EEF1F6",
                     borderRadius: 12,
                     padding: "14px 16px",
                   }}
@@ -720,7 +711,7 @@ export default function CreditTracker() {
                   <div
                     style={{
                       fontSize: 11,
-                      color: "#8499AE",
+                      color: "#64748B",
                       fontWeight: 600,
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
@@ -733,13 +724,13 @@ export default function CreditTracker() {
                     style={{
                       fontSize: 24,
                       fontWeight: 700,
-                      color: s.valColor || "#F5F8FA",
+                      color: s.valColor || "#16233A",
                       lineHeight: 1,
                     }}
                   >
                     {s.value}
                   </div>
-                  <div style={{ fontSize: 12, color: "#8499AE", marginTop: 4 }}>
+                  <div style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>
                     {s.sub}
                   </div>
                 </div>
@@ -776,8 +767,8 @@ export default function CreditTracker() {
                 <div
                   key={i}
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: `1px solid rgba(255,255,255,0.06)`,
+                    background: "#FFFFFF",
+                    border: `1px solid #E7ECF3`,
                     borderLeft: `3px solid ${p.accent}`,
                     borderRadius: 10,
                     padding: "12px 14px",
@@ -803,8 +794,8 @@ export default function CreditTracker() {
                       marginBottom: 6,
                     }}
                   >
-                    <span style={{ color: "#8499AE" }}>Balance</span>
-                    <span style={{ color: "#F5F8FA", fontWeight: 600 }}>
+                    <span style={{ color: "#64748B" }}>Balance</span>
+                    <span style={{ color: "#16233A", fontWeight: 600 }}>
                       ${p.balance.toLocaleString()} / $
                       {p.limit.toLocaleString()}
                     </span>
@@ -812,7 +803,7 @@ export default function CreditTracker() {
                   <div
                     style={{
                       height: 6,
-                      background: "rgba(255,255,255,0.08)",
+                      background: "#EDF1F7",
                       borderRadius: 99,
                       overflow: "hidden",
                       marginBottom: 6,
@@ -843,8 +834,8 @@ export default function CreditTracker() {
             {/* Utilization bars */}
             <div
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "#FFFFFF",
+                border: "1px solid #E7ECF3",
                 borderRadius: 12,
                 padding: "18px 20px",
                 marginBottom: 20,
@@ -889,7 +880,7 @@ export default function CreditTracker() {
                           gap: 8,
                         }}
                       >
-                        <span style={{ color: "#C8D4E0", fontWeight: 500 }}>
+                        <span style={{ color: "#475569", fontWeight: 500 }}>
                           {card.name}
                         </span>
                         <span
@@ -905,12 +896,12 @@ export default function CreditTracker() {
                           {ownerLabel}
                         </span>
                         {card.last4 && (
-                          <span style={{ fontSize: 11, color: "#8499AE" }}>
+                          <span style={{ fontSize: 11, color: "#64748B" }}>
                             •••• {card.last4}
                           </span>
                         )}
                       </div>
-                      <span style={{ color: "#8499AE" }}>
+                      <span style={{ color: "#64748B" }}>
                         <span
                           style={{ color: getUtilColor(pct), fontWeight: 700 }}
                         >
@@ -923,7 +914,7 @@ export default function CreditTracker() {
                     <div
                       style={{
                         height: 8,
-                        background: "rgba(255,255,255,0.08)",
+                        background: "#EDF1F7",
                         borderRadius: 99,
                         overflow: "hidden",
                       }}
@@ -946,8 +937,8 @@ export default function CreditTracker() {
             {/* Score journey */}
             <div
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "#FFFFFF",
+                border: "1px solid #E7ECF3",
                 borderRadius: 12,
                 padding: "18px 20px",
               }}
@@ -995,7 +986,7 @@ export default function CreditTracker() {
                       <div
                         style={{
                           fontSize: 10,
-                          color: isNow ? "#F4600C" : "#8499AE",
+                          color: isNow ? "#F4600C" : "#64748B",
                           fontWeight: isNow ? 700 : 400,
                         }}
                       >
@@ -1009,7 +1000,7 @@ export default function CreditTracker() {
                             ? "#F4600C"
                             : i <= completedMilestones
                               ? "#1D9E75"
-                              : "rgba(255,255,255,0.1)",
+                              : "#E7ECF3",
                           borderRadius: "4px 4px 0 0",
                           transition: "height 0.3s",
                         }}
@@ -1017,7 +1008,7 @@ export default function CreditTracker() {
                       <div
                         style={{
                           fontSize: 9,
-                          color: "#8499AE",
+                          color: "#64748B",
                           textAlign: "center",
                         }}
                       >
@@ -1058,8 +1049,8 @@ export default function CreditTracker() {
                           : val === "antonio"
                             ? "#F4600C"
                             : "#F4600C"
-                        : "rgba(255,255,255,0.07)",
-                    color: cardFilter === val ? "#fff" : "#8499AE",
+                        : "#EEF1F6",
+                    color: cardFilter === val ? "#fff" : "#64748B",
                     transition: "all 0.15s",
                   }}
                 >
@@ -1084,10 +1075,11 @@ export default function CreditTracker() {
                   <div
                     key={card.id}
                     style={{
-                      background: "rgba(255,255,255,0.04)",
-                      border: `1px solid ${isEditing ? card.color : "rgba(255,255,255,0.07)"}`,
+                      background: isEditing ? "#FFFFFF" : card.bg,
+                      border: `2px solid ${isEditing ? card.color : "transparent"}`,
                       borderRadius: 14,
                       padding: "18px 18px 14px",
+                      boxShadow: "0 1px 3px rgba(16,24,40,0.06)",
                       transition: "border 0.2s",
                     }}
                   >
@@ -1111,7 +1103,7 @@ export default function CreditTracker() {
                             style={{
                               fontSize: 15,
                               fontWeight: 700,
-                              color: "#F5F8FA",
+                              color: "#16233A",
                             }}
                           >
                             {card.name}
@@ -1139,7 +1131,7 @@ export default function CreditTracker() {
                           <div
                             style={{
                               fontSize: 11,
-                              color: "#8499AE",
+                              color: "#64748B",
                               marginTop: 3,
                               letterSpacing: "0.04em",
                             }}
@@ -1150,12 +1142,13 @@ export default function CreditTracker() {
                       </div>
                       <div
                         style={{
-                          background: card.bg,
+                          background: "rgba(255,255,255,0.65)",
                           color: card.color,
                           fontSize: 12,
                           fontWeight: 700,
                           padding: "3px 10px",
                           borderRadius: 99,
+                          border: "1px solid rgba(16,24,40,0.06)",
                         }}
                       >
                         {pct}%
@@ -1176,7 +1169,7 @@ export default function CreditTracker() {
                             <div
                               style={{
                                 fontSize: 11,
-                                color: "#8499AE",
+                                color: "#64748B",
                                 marginBottom: 4,
                               }}
                             >
@@ -1193,10 +1186,10 @@ export default function CreditTracker() {
                               }
                               style={{
                                 width: "100%",
-                                background: "rgba(255,255,255,0.08)",
-                                border: "1px solid rgba(255,255,255,0.15)",
+                                background: "#EDF1F7",
+                                border: "1px solid #D8DEE9",
                                 borderRadius: 8,
-                                color: "#F5F8FA",
+                                color: "#16233A",
                                 padding: "6px 10px",
                                 fontSize: 14,
                                 outline: "none",
@@ -1207,7 +1200,7 @@ export default function CreditTracker() {
                             <div
                               style={{
                                 fontSize: 11,
-                                color: "#8499AE",
+                                color: "#64748B",
                                 marginBottom: 4,
                               }}
                             >
@@ -1224,10 +1217,10 @@ export default function CreditTracker() {
                               }
                               style={{
                                 width: "100%",
-                                background: "rgba(255,255,255,0.08)",
-                                border: "1px solid rgba(255,255,255,0.15)",
+                                background: "#EDF1F7",
+                                border: "1px solid #D8DEE9",
                                 borderRadius: 8,
-                                color: "#F5F8FA",
+                                color: "#16233A",
                                 padding: "6px 10px",
                                 fontSize: 14,
                                 outline: "none",
@@ -1235,80 +1228,40 @@ export default function CreditTracker() {
                             />
                           </div>
                         </div>
-                        <div
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr",
-                            gap: 8,
-                            marginBottom: 10,
-                          }}
-                        >
-                          <div>
-                            <div
-                              style={{
-                                fontSize: 11,
-                                color: "#8499AE",
-                                marginBottom: 4,
-                              }}
-                            >
-                              Amount Due ($)
-                            </div>
-                            <input
-                              type="number"
-                              value={editVal.amountDue}
-                              onChange={(e) =>
-                                setEditVal({
-                                  ...editVal,
-                                  amountDue: e.target.value,
-                                })
-                              }
-                              style={{
-                                width: "100%",
-                                background: "rgba(255,255,255,0.08)",
-                                border: "1px solid rgba(255,255,255,0.15)",
-                                borderRadius: 8,
-                                color: "#F5F8FA",
-                                padding: "6px 10px",
-                                fontSize: 14,
-                                outline: "none",
-                              }}
-                            />
+                        <div style={{ marginBottom: 10 }}>
+                          <div
+                            style={{
+                              fontSize: 11,
+                              color: "#64748B",
+                              marginBottom: 4,
+                            }}
+                          >
+                            Last 4 Digits
                           </div>
-                          <div>
-                            <div
-                              style={{
-                                fontSize: 11,
-                                color: "#8499AE",
-                                marginBottom: 4,
-                              }}
-                            >
-                              Last 4 Digits
-                            </div>
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              maxLength={4}
-                              value={editVal.last4}
-                              onChange={(e) =>
-                                setEditVal({
-                                  ...editVal,
-                                  last4: e.target.value
-                                    .replace(/\D/g, "")
-                                    .slice(0, 4),
-                                })
-                              }
-                              style={{
-                                width: "100%",
-                                background: "rgba(255,255,255,0.08)",
-                                border: "1px solid rgba(255,255,255,0.15)",
-                                borderRadius: 8,
-                                color: "#F5F8FA",
-                                padding: "6px 10px",
-                                fontSize: 14,
-                                outline: "none",
-                              }}
-                            />
-                          </div>
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={4}
+                            value={editVal.last4}
+                            onChange={(e) =>
+                              setEditVal({
+                                ...editVal,
+                                last4: e.target.value
+                                  .replace(/\D/g, "")
+                                  .slice(0, 4),
+                              })
+                            }
+                            style={{
+                              width: "100%",
+                              background: "#EDF1F7",
+                              border: "1px solid #D8DEE9",
+                              borderRadius: 8,
+                              color: "#16233A",
+                              padding: "6px 10px",
+                              fontSize: 14,
+                              outline: "none",
+                            }}
+                          />
                         </div>
                         <div style={{ display: "flex", gap: 8 }}>
                           <button
@@ -1331,10 +1284,10 @@ export default function CreditTracker() {
                             onClick={() => setEditing(null)}
                             style={{
                               flex: 1,
-                              background: "rgba(255,255,255,0.07)",
+                              background: "#EEF1F6",
                               border: "none",
                               borderRadius: 8,
-                              color: "#8499AE",
+                              color: "#64748B",
                               padding: "7px",
                               fontSize: 13,
                               cursor: "pointer",
@@ -1353,11 +1306,11 @@ export default function CreditTracker() {
                               justifyContent: "space-between",
                               fontSize: 13,
                               marginBottom: 6,
-                              color: "#8499AE",
+                              color: "#64748B",
                             }}
                           >
                             <span>Balance</span>
-                            <span style={{ color: "#F5F8FA", fontWeight: 600 }}>
+                            <span style={{ color: "#16233A", fontWeight: 600 }}>
                               ${card.balance.toLocaleString()}
                             </span>
                           </div>
@@ -1367,36 +1320,18 @@ export default function CreditTracker() {
                               justifyContent: "space-between",
                               fontSize: 13,
                               marginBottom: 10,
-                              color: "#8499AE",
+                              color: "#64748B",
                             }}
                           >
                             <span>Limit</span>
-                            <span style={{ color: "#F5F8FA", fontWeight: 600 }}>
+                            <span style={{ color: "#16233A", fontWeight: 600 }}>
                               ${card.limit.toLocaleString()}
                             </span>
                           </div>
-                          {card.amountDue > 0 && (
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                fontSize: 13,
-                                marginBottom: 10,
-                                color: "#8499AE",
-                              }}
-                            >
-                              <span>Amount Due</span>
-                              <span
-                                style={{ color: "#EF9F27", fontWeight: 600 }}
-                              >
-                                ${card.amountDue.toLocaleString()}
-                              </span>
-                            </div>
-                          )}
                           <div
                             style={{
                               height: 6,
-                              background: "rgba(255,255,255,0.08)",
+                              background: "rgba(15,23,42,0.08)",
                               borderRadius: 99,
                               overflow: "hidden",
                             }}
@@ -1439,12 +1374,13 @@ export default function CreditTracker() {
                           <button
                             onClick={() => startEdit(card)}
                             style={{
-                              background: "rgba(255,255,255,0.07)",
-                              border: "1px solid rgba(255,255,255,0.1)",
+                              background: "rgba(255,255,255,0.65)",
+                              border: `1px solid ${card.color}55`,
                               borderRadius: 8,
-                              color: "#C8D4E0",
+                              color: card.color,
                               padding: "5px 12px",
                               fontSize: 12,
+                              fontWeight: 600,
                               cursor: "pointer",
                             }}
                           >
@@ -1478,7 +1414,7 @@ export default function CreditTracker() {
                 <div
                   style={{
                     fontSize: 13,
-                    color: "#8499AE",
+                    color: "#64748B",
                     textAlign: "center",
                   }}
                 >
@@ -1499,7 +1435,7 @@ export default function CreditTracker() {
                   display: "flex",
                   justifyContent: "space-between",
                   fontSize: 13,
-                  color: "#8499AE",
+                  color: "#64748B",
                   marginBottom: 8,
                 }}
               >
@@ -1511,7 +1447,7 @@ export default function CreditTracker() {
               <div
                 style={{
                   height: 8,
-                  background: "rgba(255,255,255,0.08)",
+                  background: "#EDF1F7",
                   borderRadius: 99,
                   overflow: "hidden",
                 }}
@@ -1534,10 +1470,8 @@ export default function CreditTracker() {
                   key={i}
                   onClick={() => toggleMilestone(i)}
                   style={{
-                    background: m.done
-                      ? "rgba(29,158,117,0.08)"
-                      : "rgba(255,255,255,0.03)",
-                    border: `1px solid ${m.done ? "rgba(29,158,117,0.3)" : "rgba(255,255,255,0.06)"}`,
+                    background: m.done ? "rgba(29,158,117,0.08)" : "#FFFFFF",
+                    border: `1px solid ${m.done ? "rgba(29,158,117,0.3)" : "#E7ECF3"}`,
                     borderRadius: 12,
                     padding: "14px 16px",
                     cursor: "pointer",
@@ -1552,7 +1486,7 @@ export default function CreditTracker() {
                       width: 22,
                       height: 22,
                       borderRadius: 99,
-                      border: `2px solid ${m.done ? "#1D9E75" : "rgba(255,255,255,0.2)"}`,
+                      border: `2px solid ${m.done ? "#1D9E75" : "#D8DEE9"}`,
                       background: m.done ? "#1D9E75" : "transparent",
                       display: "flex",
                       alignItems: "center",
@@ -1580,7 +1514,7 @@ export default function CreditTracker() {
                         style={{
                           fontSize: 14,
                           fontWeight: 700,
-                          color: m.done ? "#1D9E75" : "#F5F8FA",
+                          color: m.done ? "#1D9E75" : "#16233A",
                         }}
                       >
                         {m.label}
@@ -1601,8 +1535,8 @@ export default function CreditTracker() {
                         <span
                           style={{
                             fontSize: 12,
-                            background: "rgba(255,255,255,0.07)",
-                            color: "#8499AE",
+                            background: "#EEF1F6",
+                            color: "#64748B",
                             padding: "2px 8px",
                             borderRadius: 99,
                           }}
@@ -1614,7 +1548,7 @@ export default function CreditTracker() {
                     <div
                       style={{
                         fontSize: 13,
-                        color: m.done ? "#1D9E75" : "#8499AE",
+                        color: m.done ? "#1D9E75" : "#64748B",
                         lineHeight: 1.5,
                       }}
                     >
@@ -1633,7 +1567,7 @@ export default function CreditTracker() {
                 border: "1px solid rgba(244,96,12,0.15)",
                 borderRadius: 10,
                 fontSize: 12,
-                color: "#8499AE",
+                color: "#64748B",
               }}
             >
               Tap any milestone to mark it complete · Score targets are
@@ -1673,7 +1607,7 @@ export default function CreditTracker() {
                 </button>
                 {history.length > 0 && (
                   <span
-                    style={{ fontSize: 12, color: "#8499AE", marginLeft: 10 }}
+                    style={{ fontSize: 12, color: "#64748B", marginLeft: 10 }}
                   >
                     Last saved: {history[history.length - 1].label}
                   </span>
@@ -1699,12 +1633,12 @@ export default function CreditTracker() {
             {history.length === 0 ? (
               <div
                 style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px dashed rgba(255,255,255,0.12)",
+                  background: "#FFFFFF",
+                  border: "1px dashed #D8DEE9",
                   borderRadius: 12,
                   padding: "30px 20px",
                   textAlign: "center",
-                  color: "#8499AE",
+                  color: "#64748B",
                   fontSize: 13,
                 }}
               >
@@ -1733,8 +1667,8 @@ export default function CreditTracker() {
 
                 <div
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    background: "#FFFFFF",
+                    border: "1px solid #E7ECF3",
                     borderRadius: 12,
                     padding: "18px 20px",
                   }}
@@ -1758,11 +1692,11 @@ export default function CreditTracker() {
                         gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 30px",
                         gap: 8,
                         fontSize: 11,
-                        color: "#8499AE",
+                        color: "#64748B",
                         textTransform: "uppercase",
                         letterSpacing: "0.05em",
                         padding: "0 8px 8px",
-                        borderBottom: "1px solid rgba(255,255,255,0.08)",
+                        borderBottom: "1px solid #EDF1F7",
                       }}
                     >
                       <span>Month</span>
@@ -1791,13 +1725,13 @@ export default function CreditTracker() {
                             padding: "10px 8px",
                             borderBottom:
                               i < history.length - 1
-                                ? "1px solid rgba(255,255,255,0.05)"
+                                ? "1px solid #EEF1F6"
                                 : "none",
                             alignItems: "center",
                           }}
                         >
                           <span style={{ fontWeight: 600 }}>{h.label}</span>
-                          <span style={{ color: "#8499AE" }}>
+                          <span style={{ color: "#64748B" }}>
                             <span style={{ color: "#F4600C" }}>{h.score}</span>
                             {" / "}
                             <span style={{ color: "#9B59B6" }}>
@@ -1812,7 +1746,7 @@ export default function CreditTracker() {
                             style={{
                               color:
                                 balanceDelta === null
-                                  ? "#8499AE"
+                                  ? "#64748B"
                                   : balanceDelta <= 0 && utilDelta <= 0
                                     ? "#1D9E75"
                                     : "#E24B4A",
@@ -1829,7 +1763,7 @@ export default function CreditTracker() {
                             style={{
                               background: "transparent",
                               border: "none",
-                              color: "#8499AE",
+                              color: "#64748B",
                               cursor: "pointer",
                               fontSize: 14,
                             }}
