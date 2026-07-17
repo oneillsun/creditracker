@@ -494,6 +494,16 @@ export default function CreditTracker() {
     setHistory([]);
   }
 
+  function resetMilestones() {
+    if (
+      !window.confirm(
+        "Reset milestones to the default plan? This won't touch your cards, scores, or history.",
+      )
+    )
+      return;
+    setMilestones(MILESTONES);
+  }
+
   const completedMilestones = milestones.filter((m) => m.done).length;
   const progressPct = Math.round(
     (completedMilestones / milestones.length) * 100,
@@ -1435,6 +1445,29 @@ export default function CreditTracker() {
         {/* MILESTONES TAB */}
         {tab === "milestones" && (
           <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: 12,
+              }}
+            >
+              <button
+                onClick={resetMilestones}
+                style={{
+                  background: "#EEF1F6",
+                  border: "1px solid #D8DEE9",
+                  borderRadius: 8,
+                  color: "#64748B",
+                  padding: "6px 12px",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Reset to default plan
+              </button>
+            </div>
             <div style={{ marginBottom: 20 }}>
               <div
                 style={{
