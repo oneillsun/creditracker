@@ -4,9 +4,9 @@ const INITIAL_CARDS = [
   {
     id: 1,
     name: "Credit One",
-    balance: 638,
-    limit: 850,
-    last4: "",
+    balance: 531,
+    limit: 1050,
+    last4: "5181",
     color: "#E24B4A",
     bg: "#FCEBEB",
     owner: "antonio",
@@ -14,9 +14,9 @@ const INITIAL_CARDS = [
   {
     id: 2,
     name: "Discover",
-    balance: 65,
+    balance: 148.32,
     limit: 200,
-    last4: "",
+    last4: "2237",
     color: "#EF9F27",
     bg: "#FAEEDA",
     owner: "antonio",
@@ -24,9 +24,9 @@ const INITIAL_CARDS = [
   {
     id: 3,
     name: "US Bank",
-    balance: 0,
-    limit: 500,
-    last4: "",
+    balance: 863.36,
+    limit: 1000,
+    last4: "4568",
     color: "#378ADD",
     bg: "#E6F1FB",
     owner: "antonio",
@@ -34,9 +34,9 @@ const INITIAL_CARDS = [
   {
     id: 4,
     name: "Capital One",
-    balance: 0,
+    balance: 122.51,
     limit: 300,
-    last4: "",
+    last4: "3788",
     color: "#1D9E75",
     bg: "#E1F5EE",
     owner: "antonio",
@@ -44,9 +44,9 @@ const INITIAL_CARDS = [
   {
     id: 5,
     name: "Capital One",
-    balance: 292,
-    limit: 500,
-    last4: "",
+    balance: 461.82,
+    limit: 1000,
+    last4: "6564",
     color: "#9B59B6",
     bg: "#F5EEF8",
     owner: "wife",
@@ -85,50 +85,56 @@ function monthLabelOf(date) {
 const MILESTONES = [
   {
     month: 1,
-    label: "Apr 2026",
+    label: "Aug 2026",
     score: 645,
-    util: 30,
-    action: "Pay down Credit One → $400, Discover → $60",
+    util: 47,
+    action:
+      "Pay down US Bank (86% → ~50%) and Discover (74% → ~30%) — Antonio's two worst cards, driving his utilization to 65%",
     done: false,
   },
   {
     month: 2,
-    label: "May 2026",
+    label: "Sep 2026",
     score: 660,
-    util: 15,
-    action: "Pay down Credit One → $200. Request CLI on US Bank",
+    util: 39,
+    action:
+      "US Bank & Discover under 30%. Begin paying down Credit One (Antonio). Request CLI on Capital One (Antonio) — lowest balance, best approval odds",
     done: false,
   },
   {
     month: 3,
-    label: "Jun 2026",
+    label: "Oct 2026",
     score: 675,
-    util: 10,
-    action: "Credit One under $85. Request CLIs on Capital One & Discover",
+    util: 12,
+    action:
+      "Push every card under 15% individually. Request CLIs across the board now that balances are controlled",
     done: false,
   },
   {
     month: 4,
-    label: "Jul 2026",
+    label: "Nov 2026",
     score: 685,
     util: 10,
-    action: "Apply for 1 new card — Discover It or Capital One Quicksilver",
+    action:
+      "Apply for 1 new card each (Antonio + Damarys) now that scores are 680+. Request a second round of CLIs on the rest",
     done: false,
   },
   {
     month: 5,
-    label: "Aug 2026",
+    label: "Dec 2026",
     score: 695,
     util: 10,
-    action: "Another round of CLIs. Consider 2nd new card if 690+",
+    action:
+      "Second round of CLIs across all cards. Consider a 2nd new card if either score is 690+. Total credit should be climbing toward $12–13K",
     done: false,
   },
   {
     month: 6,
-    label: "Sep 2026",
+    label: "Jan 2027",
     score: 700,
     util: 10,
-    action: "Final CLIs. Hit $15K total. Begin Vidants business credit",
+    action:
+      "Final CLIs/new card to close the gap to $15,000 total credit. Zero missed payments, every card under 10%. Reassess for Vidants business credit",
     done: false,
   },
 ];
@@ -1419,7 +1425,7 @@ export default function CreditTracker() {
                   }}
                 >
                   New card in Month 4<br />
-                  after score hits 675+
+                  after score hits 680+
                 </div>
               </div>
             </div>
