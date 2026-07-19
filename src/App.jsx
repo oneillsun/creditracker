@@ -10,6 +10,8 @@ const INITIAL_CARDS = [
     color: "#E24B4A",
     bg: "#FCEBEB",
     owner: "antonio",
+    dueDate: null,
+    statementDate: null,
   },
   {
     id: 2,
@@ -20,6 +22,8 @@ const INITIAL_CARDS = [
     color: "#EF9F27",
     bg: "#FAEEDA",
     owner: "antonio",
+    dueDate: null,
+    statementDate: null,
   },
   {
     id: 3,
@@ -30,6 +34,8 @@ const INITIAL_CARDS = [
     color: "#378ADD",
     bg: "#E6F1FB",
     owner: "antonio",
+    dueDate: null,
+    statementDate: null,
   },
   {
     id: 4,
@@ -40,6 +46,8 @@ const INITIAL_CARDS = [
     color: "#1D9E75",
     bg: "#E1F5EE",
     owner: "antonio",
+    dueDate: null,
+    statementDate: null,
   },
   {
     id: 5,
@@ -50,6 +58,8 @@ const INITIAL_CARDS = [
     color: "#9B59B6",
     bg: "#F5EEF8",
     owner: "wife",
+    dueDate: null,
+    statementDate: null,
   },
   {
     id: 6,
@@ -60,6 +70,8 @@ const INITIAL_CARDS = [
     color: "#5DADE2",
     bg: "#EBF5FB",
     owner: "wife",
+    dueDate: null,
+    statementDate: null,
   },
 ];
 
@@ -355,6 +367,8 @@ export default function CreditTracker() {
     balance: "",
     limit: "",
     last4: "",
+    dueDate: "",
+    statementDate: "",
   });
   const [tab, setTab] = useState("dashboard");
   const [cardFilter, setCardFilter] = useState("all");
@@ -421,7 +435,16 @@ export default function CreditTracker() {
       balance: card.balance,
       limit: card.limit,
       last4: card.last4,
+      dueDate: card.dueDate ?? "",
+      statementDate: card.statementDate ?? "",
     });
+  }
+
+  function clampDay(val) {
+    if (val === "" || val === null || val === undefined) return null;
+    const n = Number(val);
+    if (!Number.isFinite(n)) return null;
+    return Math.min(31, Math.max(1, Math.round(n)));
   }
 
   function saveEdit(id) {
@@ -435,6 +458,8 @@ export default function CreditTracker() {
               last4: String(editVal.last4 || "")
                 .replace(/\D/g, "")
                 .slice(0, 4),
+              dueDate: clampDay(editVal.dueDate),
+              statementDate: clampDay(editVal.statementDate),
             }
           : c,
       ),
@@ -1279,6 +1304,83 @@ export default function CreditTracker() {
                             }}
                           />
                         </div>
+                        <div
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 1fr",
+                            gap: 8,
+                            marginBottom: 10,
+                          }}
+                        >
+                          <div>
+                            <div
+                              style={{
+                                fontSize: 11,
+                                color: "#64748B",
+                                marginBottom: 4,
+                              }}
+                            >
+                              Statement Day
+                            </div>
+                            <input
+                              type="number"
+                              min={1}
+                              max={31}
+                              placeholder="e.g. 12"
+                              value={editVal.statementDate}
+                              onChange={(e) =>
+                                setEditVal({
+                                  ...editVal,
+                                  statementDate: e.target.value,
+                                })
+                              }
+                              style={{
+                                width: "100%",
+                                background: "#EDF1F7",
+                                border: "1px solid #D8DEE9",
+                                borderRadius: 8,
+                                color: "#16233A",
+                                padding: "6px 10px",
+                                fontSize: 14,
+                                outline: "none",
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <div
+                              style={{
+                                fontSize: 11,
+                                color: "#64748B",
+                                marginBottom: 4,
+                              }}
+                            >
+                              Due Day
+                            </div>
+                            <input
+                              type="number"
+                              min={1}
+                              max={31}
+                              placeholder="e.g. 5"
+                              value={editVal.dueDate}
+                              onChange={(e) =>
+                                setEditVal({
+                                  ...editVal,
+                                  dueDate: e.target.value,
+                                })
+                              }
+                              style={{
+                                width: "100%",
+                                background: "#EDF1F7",
+                                border: "1px solid #D8DEE9",
+                                borderRadius: 8,
+                                color: "#16233A",
+                                padding: "6px 10px",
+                                fontSize: 14,
+                                outline: "none",
+                              }}
+                            />
+                          </div>
+                        </div>
                         <div style={{ display: "flex", gap: 8 }}>
                           <button
                             onClick={() => saveEdit(card.id)}
@@ -1362,6 +1464,38 @@ export default function CreditTracker() {
                             />
                           </div>
                         </div>
+                        {(card.statementDate || card.dueDate) && (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: 14,
+                              fontSize: 12,
+                              color: "#64748B",
+                              marginBottom: 10,
+                            }}
+                          >
+                            {card.statementDate && (
+                              <span>
+                                Statement:{" "}
+                                <span
+                                  style={{ color: "#16233A", fontWeight: 600 }}
+                                >
+                                  day {card.statementDate}
+                                </span>
+                              </span>
+                            )}
+                            {card.dueDate && (
+                              <span>
+                                Due:{" "}
+                                <span
+                                  style={{ color: "#16233A", fontWeight: 600 }}
+                                >
+                                  day {card.dueDate}
+                                </span>
+                              </span>
+                            )}
+                          </div>
+                        )}
                         <div
                           style={{
                             display: "flex",
