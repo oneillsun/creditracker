@@ -94,6 +94,15 @@ function monthLabelOf(date) {
   return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
 }
 
+function formatShortDate(isoString) {
+  if (!isoString) return null;
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return null;
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  return `${mm}/${dd}/${date.getFullYear()}`;
+}
+
 const MILESTONES = [
   {
     month: 1,
@@ -460,6 +469,7 @@ export default function CreditTracker() {
                 .slice(0, 4),
               dueDate: clampDay(editVal.dueDate),
               statementDate: clampDay(editVal.statementDate),
+              updatedAt: new Date().toISOString(),
             }
           : c,
       ),
@@ -1537,6 +1547,18 @@ export default function CreditTracker() {
                             Update
                           </button>
                         </div>
+                        {card.updatedAt && (
+                          <div
+                            style={{
+                              textAlign: "right",
+                              fontSize: 10,
+                              color: "#8499AE",
+                              marginTop: 4,
+                            }}
+                          >
+                            Last update: {formatShortDate(card.updatedAt)}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
