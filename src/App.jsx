@@ -727,6 +727,11 @@ export default function CreditTracker() {
                   sub: `of $${totalLimit.toLocaleString()}`,
                 },
                 {
+                  label: "Combined Available Balance",
+                  value: `$${Math.max(totalLimit - totalBalance, 0).toLocaleString()}`,
+                  sub: `of $${totalLimit.toLocaleString()}`,
+                },
+                {
                   label: "Combined Utilization",
                   value: `${totalUtil}%`,
                   sub:
