@@ -1458,6 +1458,24 @@ export default function CreditTracker() {
                           </div>
                           <div
                             style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              fontSize: 13,
+                              marginBottom: 10,
+                              color: "#64748B",
+                            }}
+                          >
+                            <span>Available credit</span>
+                            <span style={{ color: "#16233A", fontWeight: 600 }}>
+                              $
+                              {Math.max(
+                                card.limit - card.balance,
+                                0,
+                              ).toLocaleString()}
+                            </span>
+                          </div>
+                          <div
+                            style={{
                               height: 6,
                               background: "rgba(15,23,42,0.08)",
                               borderRadius: 99,
