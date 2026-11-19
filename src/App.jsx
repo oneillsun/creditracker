@@ -77,6 +77,42 @@ const INITIAL_CARDS = [
 
 const STORAGE_KEY = "creditTracker.v1";
 
+const CARD_PALETTE = [
+  { color: "#E24B4A", bg: "#FCEBEB" },
+  { color: "#EF9F27", bg: "#FAEEDA" },
+  { color: "#378ADD", bg: "#E6F1FB" },
+  { color: "#1D9E75", bg: "#E1F5EE" },
+  { color: "#9B59B6", bg: "#F5EEF8" },
+  { color: "#5DADE2", bg: "#EBF5FB" },
+  { color: "#D35400", bg: "#FBEEE6" },
+  { color: "#2C3E50", bg: "#EAEDF1" },
+];
+
+const EMPTY_NEW_CARD = {
+  name: "",
+  owner: "antonio",
+  balance: "",
+  limit: "",
+  last4: "",
+  statementDate: "",
+  dueDate: "",
+  colorIdx: 0,
+};
+
+const INPUT_STYLE = {
+  width: "100%",
+  background: "#EDF1F7",
+  border: "1px solid #D8DEE9",
+  borderRadius: 8,
+  color: "#16233A",
+  padding: "6px 10px",
+  fontSize: 14,
+  outline: "none",
+  boxSizing: "border-box",
+};
+
+const LABEL_STYLE = { fontSize: 11, color: "#64748B", marginBottom: 4 };
+
 function loadSaved() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -106,43 +142,43 @@ function formatShortDate(isoString) {
 const MILESTONES = [
   {
     month: 1,
-    label: "Jul 2026",
+    label: "Aug 2026",
     score: 645,
     util: 37,
     action:
-      "Put $1,000 toward US Bank — pays it off completely (86% → 0%) — with the ~$137 left over knocking down Discover next",
+      "Put $1,000 toward US Bank — pays it off completely (86% → 0%, the highest utilization of any card) — with the ~$137 left over knocking down Discover (74% util) next",
     done: false,
   },
   {
     month: 2,
-    label: "Aug 2026",
+    label: "Sep 2026",
     score: 662,
     util: 19,
     action:
-      "$1,000 clears the rest of Discover and pays off Credit One (Antonio) in full, with what's left starting to chip into Credit One (Damarys)",
+      "$1,000 clears the rest of Discover and pays off Credit One (Antonio, 51% util) in full, with what's left starting to chip into Credit One (Damarys, next-highest at 47%)",
     done: false,
   },
   {
     month: 3,
-    label: "Sep 2026",
+    label: "Oct 2026",
     score: 680,
     util: 1,
     action:
-      "$1,000 finishes off Credit One (Damarys) and Capital One (Damarys), leaving only ~$63 across all 6 cards combined",
+      "$1,000 finishes off Credit One (Damarys) and Capital One (Damarys, 46% util), leaving only ~$63 across all 6 cards combined",
     done: false,
   },
   {
     month: 4,
-    label: "Oct 2026",
+    label: "Nov 2026",
     score: 688,
     util: 0,
     action:
-      "Final ~$63 paid off — completely debt-free across all 6 cards. Request CLIs on every card now, while utilization is 0% — the best possible time to ask",
+      "Final ~$63 paid off on Capital One (Antonio) — completely debt-free across all 6 cards. Request CLIs on every card now, while utilization is 0% — the best possible time to ask",
     done: false,
   },
   {
     month: 5,
-    label: "Nov 2026",
+    label: "Dec 2026",
     score: 695,
     util: 0,
     action:
@@ -151,7 +187,7 @@ const MILESTONES = [
   },
   {
     month: 6,
-    label: "Dec 2026",
+    label: "Jan 2027",
     score: 700,
     util: 0,
     action:
@@ -381,6 +417,8 @@ export default function CreditTracker() {
   });
   const [tab, setTab] = useState("dashboard");
   const [cardFilter, setCardFilter] = useState("all");
+  const [adding, setAdding] = useState(false);
+  const [newCard, setNewCard] = useState(EMPTY_NEW_CARD);
 
   const remoteSaveTimeout = useRef(null);
 
@@ -475,6 +513,41 @@ export default function CreditTracker() {
       ),
     );
     setEditing(null);
+  }
+
+  function startAdd() {
+    setNewCard({
+      ...EMPTY_NEW_CARD,
+      owner: cardFilter === "wife" ? "wife" : "antonio",
+      colorIdx: cards.length % CARD_PALETTE.length,
+    });
+    setAdding(true);
+  }
+
+  const canSaveNewCard =
+    newCard.name.trim() !== "" && Number(newCard.limit) > 0;
+
+  function saveNewCard() {
+    if (!canSaveNewCard) return;
+    const { color, bg } = CARD_PALETTE[newCard.colorIdx] ?? CARD_PALETTE[0];
+    const card = {
+      id: cards.reduce((m, c) => Math.max(m, Number(c.id) || 0), 0) + 1,
+      name: newCard.name.trim(),
+      balance: Math.max(0, Number(newCard.balance) || 0),
+      limit: Math.max(1, Number(newCard.limit)),
+      last4: String(newCard.last4 || "")
+        .replace(/\D/g, "")
+        .slice(0, 4),
+      color,
+      bg,
+      owner: newCard.owner,
+      dueDate: clampDay(newCard.dueDate),
+      statementDate: clampDay(newCard.statementDate),
+      updatedAt: new Date().toISOString(),
+    };
+    setCards([...cards, card]);
+    setAdding(false);
+    setNewCard(EMPTY_NEW_CARD);
   }
 
   function toggleMilestone(i) {
@@ -1588,35 +1661,259 @@ export default function CreditTracker() {
                 );
               })}
 
-              {/* Add card hint */}
-              <div
-                style={{
-                  background: "rgba(244,96,12,0.05)",
-                  border: "1px dashed rgba(244,96,12,0.2)",
-                  borderRadius: 14,
-                  padding: "18px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  minHeight: 160,
-                }}
-              >
-                <div style={{ fontSize: 28, color: "rgba(244,96,12,0.4)" }}>
-                  +
-                </div>
+              {/* Add new card */}
+              {adding ? (
                 <div
                   style={{
-                    fontSize: 13,
-                    color: "#64748B",
-                    textAlign: "center",
+                    background: "#FFFFFF",
+                    border: `2px solid ${CARD_PALETTE[newCard.colorIdx].color}`,
+                    borderRadius: 14,
+                    padding: "18px 18px 14px",
+                    boxShadow: "0 1px 3px rgba(16,24,40,0.06)",
                   }}
                 >
-                  New card in Month 5<br />
-                  after score hits 690+
+                  <div
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 700,
+                      color: "#16233A",
+                      marginBottom: 12,
+                    }}
+                  >
+                    New Card
+                  </div>
+                  <div style={{ marginBottom: 10 }}>
+                    <div style={LABEL_STYLE}>Card Name *</div>
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder="e.g. Chase Freedom"
+                      value={newCard.name}
+                      onChange={(e) =>
+                        setNewCard({ ...newCard, name: e.target.value })
+                      }
+                      style={INPUT_STYLE}
+                    />
+                  </div>
+                  <div style={{ marginBottom: 10 }}>
+                    <div style={LABEL_STYLE}>Owner</div>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      {[
+                        ["antonio", "Antonio", "#F4600C"],
+                        ["wife", "Damarys", "#9B59B6"],
+                      ].map(([val, label, color]) => (
+                        <button
+                          key={val}
+                          type="button"
+                          onClick={() => setNewCard({ ...newCard, owner: val })}
+                          style={{
+                            flex: 1,
+                            padding: "6px",
+                            borderRadius: 8,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            border: "none",
+                            background:
+                              newCard.owner === val ? color : "#EEF1F6",
+                            color: newCard.owner === val ? "#fff" : "#64748B",
+                          }}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 8,
+                      marginBottom: 10,
+                    }}
+                  >
+                    <div>
+                      <div style={LABEL_STYLE}>Balance ($)</div>
+                      <input
+                        type="number"
+                        min={0}
+                        placeholder="0"
+                        value={newCard.balance}
+                        onChange={(e) =>
+                          setNewCard({ ...newCard, balance: e.target.value })
+                        }
+                        style={INPUT_STYLE}
+                      />
+                    </div>
+                    <div>
+                      <div style={LABEL_STYLE}>Limit ($) *</div>
+                      <input
+                        type="number"
+                        min={1}
+                        placeholder="e.g. 500"
+                        value={newCard.limit}
+                        onChange={(e) =>
+                          setNewCard({ ...newCard, limit: e.target.value })
+                        }
+                        style={INPUT_STYLE}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: 10 }}>
+                    <div style={LABEL_STYLE}>Last 4 Digits</div>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={4}
+                      value={newCard.last4}
+                      onChange={(e) =>
+                        setNewCard({
+                          ...newCard,
+                          last4: e.target.value.replace(/\D/g, "").slice(0, 4),
+                        })
+                      }
+                      style={INPUT_STYLE}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 8,
+                      marginBottom: 10,
+                    }}
+                  >
+                    <div>
+                      <div style={LABEL_STYLE}>Statement Day</div>
+                      <input
+                        type="number"
+                        min={1}
+                        max={31}
+                        placeholder="e.g. 12"
+                        value={newCard.statementDate}
+                        onChange={(e) =>
+                          setNewCard({
+                            ...newCard,
+                            statementDate: e.target.value,
+                          })
+                        }
+                        style={INPUT_STYLE}
+                      />
+                    </div>
+                    <div>
+                      <div style={LABEL_STYLE}>Due Day</div>
+                      <input
+                        type="number"
+                        min={1}
+                        max={31}
+                        placeholder="e.g. 5"
+                        value={newCard.dueDate}
+                        onChange={(e) =>
+                          setNewCard({ ...newCard, dueDate: e.target.value })
+                        }
+                        style={INPUT_STYLE}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={LABEL_STYLE}>Color</div>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {CARD_PALETTE.map((p, i) => (
+                        <button
+                          key={p.color}
+                          type="button"
+                          aria-label={`Color ${i + 1}`}
+                          onClick={() =>
+                            setNewCard({ ...newCard, colorIdx: i })
+                          }
+                          style={{
+                            width: 22,
+                            height: 22,
+                            borderRadius: 99,
+                            background: p.color,
+                            cursor: "pointer",
+                            border:
+                              newCard.colorIdx === i
+                                ? "2px solid #16233A"
+                                : "2px solid transparent",
+                            boxShadow:
+                              newCard.colorIdx === i
+                                ? "0 0 0 2px #fff inset"
+                                : "none",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      onClick={saveNewCard}
+                      disabled={!canSaveNewCard}
+                      style={{
+                        flex: 1,
+                        background: canSaveNewCard ? "#F4600C" : "#F8B48C",
+                        border: "none",
+                        borderRadius: 8,
+                        color: "#fff",
+                        padding: "7px",
+                        fontSize: 13,
+                        fontWeight: 700,
+                        cursor: canSaveNewCard ? "pointer" : "not-allowed",
+                      }}
+                    >
+                      Add Card
+                    </button>
+                    <button
+                      onClick={() => setAdding(false)}
+                      style={{
+                        flex: 1,
+                        background: "#EEF1F6",
+                        border: "none",
+                        borderRadius: 8,
+                        color: "#64748B",
+                        padding: "7px",
+                        fontSize: 13,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={startAdd}
+                  style={{
+                    background: "rgba(244,96,12,0.05)",
+                    border: "1px dashed rgba(244,96,12,0.35)",
+                    borderRadius: 14,
+                    padding: "18px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    minHeight: 160,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  <div style={{ fontSize: 28, color: "rgba(244,96,12,0.6)" }}>
+                    +
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: "#F4600C",
+                      textAlign: "center",
+                    }}
+                  >
+                    Add new card
+                  </div>
+                </button>
+              )}
             </div>
           </div>
         )}
